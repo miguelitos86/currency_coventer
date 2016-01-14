@@ -142,9 +142,7 @@
 				</c:choose>
 			</div>
 		</div>
-
 	</form:form>
-
 </div>
 
 <jsp:include page="../fragments/footer.jsp" />

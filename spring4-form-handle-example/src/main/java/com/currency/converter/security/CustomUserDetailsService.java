@@ -44,35 +44,27 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Transactional( readOnly = true )
 	@Override
-	public UserDetails loadUserByUsername( final String username )
-			throws UsernameNotFoundException {
-		
+	public UserDetails loadUserByUsername( final String username ) throws UsernameNotFoundException {
+
 		com.currency.converter.model.User user = userDao.findByEmail( username );
 
-		CustomUserDetails userDetails = buildUserForAuthentication( user,
-				buildUserAuthority() );
+		CustomUserDetails userDetails = buildUserForAuthentication( user, buildUserAuthority() );
 
-		Authentication authentication = new UsernamePasswordAuthenticationToken(
-				userDetails, userDetails.getPassword(),
-				userDetails.getAuthorities() );
+		Authentication authentication = new UsernamePasswordAuthenticationToken( userDetails, userDetails.getPassword(), userDetails.getAuthorities() );
 
 		SecurityContextHolder.getContext().setAuthentication( authentication );
 
 		return buildUserForAuthentication( user, buildUserAuthority() );
 	}
 
-	private CustomUserDetails buildUserForAuthentication(
-			com.currency.converter.model.User user,
-			List< GrantedAuthority > authorities ) {
-		return new CustomUserDetails( user.getName(), user.getPassword(),
-				user.getId(), true, true, true, true, authorities );
+	private CustomUserDetails buildUserForAuthentication( com.currency.converter.model.User user, List< GrantedAuthority > authorities ) {
+		return new CustomUserDetails( user.getName(), user.getPassword(), user.getId(), true, true, true, true, authorities );
 	}
 
 	private List< GrantedAuthority > buildUserAuthority() {
 
 		Set< GrantedAuthority > setAuths = new HashSet< GrantedAuthority >();
-		List< GrantedAuthority > Result = new ArrayList< GrantedAuthority >(
-				setAuths );
+		List< GrantedAuthority > Result = new ArrayList< GrantedAuthority >( setAuths );
 
 		return Result;
 	}

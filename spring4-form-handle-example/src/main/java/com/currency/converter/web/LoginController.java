@@ -20,25 +20,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	private final Logger logger = LoggerFactory
-			.getLogger( LoginController.class );
+	private final Logger logger = LoggerFactory.getLogger( LoginController.class );
 
 	@RequestMapping( value = "/login", method = RequestMethod.GET )
-	public String doLoginLogout(
-			@RequestParam( value = "error", required = false ) boolean error,
-			@RequestParam( value = "logout", required = false ) boolean logout,
-			ModelMap model ) {
+	public String doLoginLogout( @RequestParam( value = "error", required = false ) boolean error,
+			@RequestParam( value = "logout", required = false ) boolean logout, ModelMap model ) {
 
-		logger.debug( "doLoginLogout()");
-		
+		logger.debug( "doLoginLogout()" );
+
 		if ( error == true ) {
-			logger.debug( "doLoginLogout() error in authentication");
+			logger.debug( "doLoginLogout() error in authentication" );
 			model.put( "error", true );
 		} else {
 			model.put( "error", false );
 		}
 		if ( logout == true ) {
-			logger.debug( "doLoginLogout() logout");
+			logger.debug( "doLoginLogout() logout" );
 			model.put( "logout", true );
 		} else {
 			model.put( "logout", false );

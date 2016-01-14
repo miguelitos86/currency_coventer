@@ -18,8 +18,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table( name = "ExchangeQuery" )
-public class ExchangeQuery implements Serializable {
+@Table( name = "CurrencyExchangeQuery" )
+public class CurrencyExchangeQuery implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

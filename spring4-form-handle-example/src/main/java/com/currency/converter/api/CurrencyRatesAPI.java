@@ -13,7 +13,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.currency.converter.model.CurrencyExchangeRate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,34 +21,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @email m.delpradoaranda@gmail.com
  * @date 2/1/2016
  */
-public class LiveResponseDemo {
+
+public class CurrencyRatesAPI {
 	public static final String ACCESS_KEY = "2a25839a25762cfbd2dc559c50f4fa16";
 	public static final String BASE_URL = "http://apilayer.net/api/";
 	public static final String ENDPOINT = "live";
-	public static final String AVAILABLE_CURRENCIES = "USD,EUR,GBP,NZD,AUD,HUF";
+	public static final String ORIGIN_AVAILABLE_CURRENCIES = "USD";
+	public static final String TARGET_AVAILABLE_CURRENCIES = "USD,EUR,GBP,NZD,AUD,HUF";
 
 	static CloseableHttpClient httpClient = HttpClients.createDefault();
 
-	public CurrencyExchangeRate sendLiveRequest() {
+	public CurrencyExchangeRateAPI sendRequest( String currencyOrigin) {
 
-		CurrencyExchangeRate currencyExchangeRate = new CurrencyExchangeRate();
+		CurrencyExchangeRateAPI currencyExchangeRate = new CurrencyExchangeRateAPI();
 
-		HttpGet get = new HttpGet( BASE_URL + ENDPOINT + "?access_key="
-				+ ACCESS_KEY + "&currencies=" + AVAILABLE_CURRENCIES );
+		HttpGet get = new HttpGet( BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY + "&source=" + currencyOrigin + "&currencies="
+				+ TARGET_AVAILABLE_CURRENCIES );
 
 		try {
 			CloseableHttpResponse response = httpClient.execute( get );
 			HttpEntity entity = response.getEntity();
 
-			JSONObject exchangeRates = new JSONObject(
-					EntityUtils.toString( entity ) );
+			JSONObject exchangeRates = new JSONObject( EntityUtils.toString( entity ) );
 
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(
-					DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
+			mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
 
-			currencyExchangeRate = mapper.readValue( exchangeRates.toString(),
-					CurrencyExchangeRate.class );
+			currencyExchangeRate = mapper.readValue( exchangeRates.toString(), CurrencyExchangeRateAPI.class );
 
 			response.close();
 
@@ -65,5 +63,4 @@ public class LiveResponseDemo {
 
 		return currencyExchangeRate;
 	}
-
 }

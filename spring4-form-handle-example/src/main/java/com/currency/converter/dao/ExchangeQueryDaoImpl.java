@@ -12,7 +12,7 @@ import net.sf.ehcache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.currency.converter.model.ExchangeQuery;
+import com.currency.converter.model.CurrencyExchangeQuery;
 
 public class ExchangeQueryDaoImpl implements ExchangeQueryDao {
 
@@ -21,25 +21,25 @@ public class ExchangeQueryDaoImpl implements ExchangeQueryDao {
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public List< ExchangeQuery > findAll() {
-		return entityManager.createQuery( "SELECT eq FROM ExchangeQuery eq" )
+	public List< CurrencyExchangeQuery > findAll() {
+		return entityManager.createQuery( "SELECT eq FROM CurrencyExchangeQuery eq" )
 				.getResultList();
 	}
 
 	@SuppressWarnings( "unchecked" )
 	@Override
 	@Cacheable("findAll") 
-	public List< ExchangeQuery > findAll( Integer userId ) {
-		 Query query = entityManager.createQuery( "FROM ExchangeQuery WHERE UserId = :userId ORDER BY CreatedDate DESC LIMIT 10" )
+	public List< CurrencyExchangeQuery > findAll( Integer userId ) {
+		 Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE UserId = :userId ORDER BY CreatedDate DESC LIMIT 10" )
 				.setParameter( "userId", userId );
 		 return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public void save( ExchangeQuery exchangeQuery ) {
-		exchangeQuery.setCreatedDate( new Date() );
-		entityManager.persist( exchangeQuery );
+	public void save( CurrencyExchangeQuery currencyExchangeQuery ) {
+		currencyExchangeQuery.setCreatedDate( new Date() );
+		entityManager.persist( currencyExchangeQuery );
 		CacheManager.getInstance().getEhcache("findAll").removeAll();
 	}
 
@@ -53,13 +53,13 @@ public class ExchangeQueryDaoImpl implements ExchangeQueryDao {
 	
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public ExchangeQuery findById( Integer id ) {
-		Query query = entityManager.createQuery( "FROM ExchangeQuery WHERE ID = :id" )
+	public CurrencyExchangeQuery findById( Integer id ) {
+		Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE ID = :id" )
 				.setParameter( "id", id );
-		List< ExchangeQuery > list = query.getResultList();
+		List< CurrencyExchangeQuery > list = query.getResultList();
 
 		if ( !list.isEmpty() ) {
-			return ( ExchangeQuery ) list.get( 0 );
+			return ( CurrencyExchangeQuery ) list.get( 0 );
 		} else {
 			return null;
 		}

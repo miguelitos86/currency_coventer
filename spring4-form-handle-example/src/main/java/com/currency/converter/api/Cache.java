@@ -5,33 +5,31 @@ import java.util.ArrayList;
 import org.apache.commons.collections.MapIterator;
 import org.apache.commons.collections.map.LRUMap;
 
-import com.currency.converter.model.CurrencyExchangeRate;
-
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
  * @date 9/1/2016
  */
 
-public class CurrencyRatesInMemoryCache< K, V > {
+public class Cache< K, V > {
 
 	private long timeToLive;
-	private LRUMap crunchifyCacheMap;
-	private LiveResponseDemo liveResponseDemo = new LiveResponseDemo();
+	private LRUMap cache;
+	private CurrencyRatesAPI response = new CurrencyRatesAPI();
 
-	protected class CrunchifyCacheObject {
+	protected class CacheObject {
 		public long lastAccessed = System.currentTimeMillis();
 		public V value;
 
-		protected CrunchifyCacheObject( V value ) {
+		protected CacheObject( V value ) {
 			this.value = value;
 		}
 	}
 
-	public CurrencyRatesInMemoryCache( long crunchifyTimeToLive, final long crunchifyTimerInterval ) {
+	public Cache( long crunchifyTimeToLive, final long crunchifyTimerInterval ) {
 		this.timeToLive = crunchifyTimeToLive * 1000;
 
-		crunchifyCacheMap = new LRUMap();
+		cache = new LRUMap();
 
 		if ( timeToLive > 0 && crunchifyTimerInterval > 0 ) {
 
@@ -46,29 +44,28 @@ public class CurrencyRatesInMemoryCache< K, V > {
 					}
 				}
 			} );
-
 			t.setDaemon( true );
 			t.start();
 		}
 	}
 
 	public void put( K key, V value ) {
-		synchronized (crunchifyCacheMap) {
-			crunchifyCacheMap.put( key, new CrunchifyCacheObject( value ) );
+		synchronized (cache) {
+			cache.put( key, new CacheObject( value ) );
 		}
 	}
 
 	@SuppressWarnings( "unchecked" )
 	public V get( K key ) {
-		synchronized (crunchifyCacheMap) {
-			CrunchifyCacheObject c = ( CrunchifyCacheObject ) crunchifyCacheMap.get( key );
+		synchronized (cache) {
+			CacheObject c = ( CacheObject ) cache.get( key );
 
 			if ( c == null ) {
-				CurrencyExchangeRate currencyExchangeRate = liveResponseDemo.sendLiveRequest();
-				
+				CurrencyExchangeRateAPI currencyExchangeRate = response.sendRequest( (String) key );
+
 				put( ( K ) key, ( V ) currencyExchangeRate.getQuotes() );
 
-				c = ( CrunchifyCacheObject ) crunchifyCacheMap.get( key );
+				c = ( CacheObject ) cache.get( key );
 			}
 			c.lastAccessed = System.currentTimeMillis();
 
@@ -77,14 +74,14 @@ public class CurrencyRatesInMemoryCache< K, V > {
 	}
 
 	public void remove( K key ) {
-		synchronized (crunchifyCacheMap) {
-			crunchifyCacheMap.remove( key );
+		synchronized (cache) {
+			cache.remove( key );
 		}
 	}
 
 	public int size() {
-		synchronized (crunchifyCacheMap) {
-			return crunchifyCacheMap.size();
+		synchronized (cache) {
+			return cache.size();
 		}
 	}
 
@@ -94,16 +91,16 @@ public class CurrencyRatesInMemoryCache< K, V > {
 		long now = System.currentTimeMillis();
 		ArrayList< K > deleteKey = null;
 
-		synchronized (crunchifyCacheMap) {
-			MapIterator itr = crunchifyCacheMap.mapIterator();
+		synchronized (cache) {
+			MapIterator itr = cache.mapIterator();
 
-			deleteKey = new ArrayList< K >( ( crunchifyCacheMap.size() / 2 ) + 1 );
+			deleteKey = new ArrayList< K >( ( cache.size() / 2 ) + 1 );
 			K key = null;
-			CrunchifyCacheObject c = null;
+			CacheObject c = null;
 
 			while ( itr.hasNext() ) {
 				key = ( K ) itr.next();
-				c = ( CrunchifyCacheObject ) itr.getValue();
+				c = ( CacheObject ) itr.getValue();
 
 				if ( c != null && ( now > ( timeToLive + c.lastAccessed ) ) ) {
 					deleteKey.add( key );
@@ -112,12 +109,11 @@ public class CurrencyRatesInMemoryCache< K, V > {
 		}
 
 		for ( K key : deleteKey ) {
-			synchronized (crunchifyCacheMap) {
-				crunchifyCacheMap.remove( key );
+			synchronized (cache) {
+				cache.remove( key );
 			}
 
 			Thread.yield();
 		}
 	}
-
 }

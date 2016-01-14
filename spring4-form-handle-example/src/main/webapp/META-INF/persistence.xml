@@ -7,7 +7,7 @@
 	<persistence-unit name="jpaData" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.currency.converter.model.User</class>
-		<class>com.currency.converter.model.ExchangeQuery</class>
+		<class>com.currency.converter.model.CurrencyExchangeQuery</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 		</properties>

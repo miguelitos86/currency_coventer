@@ -36,14 +36,12 @@ public class UserServiceImpl implements UserService {
 		} else {
 			userDao.update( user );
 		}
-
 	}
 
 	@Override
 	public void delete( Integer id ) {
 		userDao.delete( id );
 	}
-
 
 	@Override
 	public User findByEmail( String email ) {

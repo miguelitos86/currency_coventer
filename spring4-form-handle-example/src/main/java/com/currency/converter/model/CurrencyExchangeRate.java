@@ -3,33 +3,46 @@
  */
 package com.currency.converter.model;
 
-import java.util.HashMap;
 
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 9/1/2016
+ * @date 10/1/2016
  */
-
 public class CurrencyExchangeRate {
 
-	private String source;
-	private HashMap< String, Double > quotes;
+	private String origin;
+	private String target;
+	private Double rate;
 
-	public String getSource() {
-		return source;
+	public CurrencyExchangeRate( String origin, String target, Double rate ) {
+		this.origin = origin;
+		this.target = target;
+		this.rate = rate;
 	}
 
-	public void setSource( String source ) {
-		this.source = source;
+	public String getOrigin() {
+		return origin;
 	}
 
-	public HashMap< String, Double > getQuotes() {
-		return quotes;
+	public void setOrigin( String origin ) {
+		this.origin = origin;
 	}
 
-	public void setQuotes( HashMap< String, Double > quotes ) {
-		this.quotes = quotes;
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget( String target ) {
+		this.target = target;
+	}
+
+	public Double getRate() {
+		return rate;
+	}
+
+	public void setRate( Double rate ) {
+		this.rate = rate;
 	}
 
 }

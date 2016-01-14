@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.currency.converter.dao.ExchangeQueryDao;
-import com.currency.converter.model.ExchangeQuery;
+import com.currency.converter.model.CurrencyExchangeQuery;
 
 @Service( "exchangeQueryService" )
 public class ExchangeQueryServiceImpl implements ExchangeQueryService {
@@ -19,31 +19,29 @@ public class ExchangeQueryServiceImpl implements ExchangeQueryService {
 	}
 
 	@Override
-	public List< ExchangeQuery > findAll() {
+	public List< CurrencyExchangeQuery > findAll() {
 		return exchangeQueryDao.findAll();
 	}
 
 	@Override
-	public List< ExchangeQuery > findAll( Integer userId ) {
+	public List< CurrencyExchangeQuery > findAll( Integer userId ) {
 		return exchangeQueryDao.findAll( userId );
 	}
 
 	@Override
-	public void save( ExchangeQuery exchangeQuery ) {
-		exchangeQueryDao.save( exchangeQuery );
+	public void save( CurrencyExchangeQuery currencyExchangeQuery ) {
+		exchangeQueryDao.save( currencyExchangeQuery );
 	}
 
 	@Override
 	public void delete( Integer id ) {
 		exchangeQueryDao.delete( id );
-		
+
 	}
 
 	@Override
-	public ExchangeQuery findById( Integer id ) {
+	public CurrencyExchangeQuery findById( Integer id ) {
 		return exchangeQueryDao.findById( id );
 	}
-	
-
 
 }

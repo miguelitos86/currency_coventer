@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 
 @Component( "exchangeQueryForm" )
 @Scope(value = "session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class ExchangeQueryForm {
+public class CurrencyExchangeQueryForm {
 
 	String originCurrency;
 	String destinationCurrency;
 	Double exchangeRate;
 	Double quantityOrigin;
 
-	public ExchangeQueryForm() {
+	public CurrencyExchangeQueryForm() {
 		this.originCurrency = "USD";
 		this.destinationCurrency = "EUR";
 		this.quantityOrigin = new Double( 1 );

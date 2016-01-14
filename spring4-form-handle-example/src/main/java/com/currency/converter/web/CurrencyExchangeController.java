@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.currency.converter.api.CurrencyRatesInMemoryCache;
-import com.currency.converter.model.ExchangeQuery;
-import com.currency.converter.model.ExchangeQueryForm;
-import com.currency.converter.model.ExchangeRate;
+import com.currency.converter.api.Cache;
+import com.currency.converter.model.CurrencyExchangeQuery;
+import com.currency.converter.model.CurrencyExchangeQueryForm;
+import com.currency.converter.model.CurrencyExchangeRate;
 import com.currency.converter.security.CustomUserDetails;
 import com.currency.converter.service.ExchangeQueryService;
 
 @Controller
-public class ExchangeQueryController {
+public class CurrencyExchangeController {
 
-	private final Logger logger = LoggerFactory.getLogger( ExchangeQueryController.class );
+	private final Logger logger = LoggerFactory.getLogger( CurrencyExchangeController.class );
 
 	private ExchangeQueryService exchangeQueryService;
-	private ExchangeQueryForm exchangeQueryForm;
+	private CurrencyExchangeQueryForm exchangeQueryForm;
 
-	private final static long crunchifyTimeToLive = 200;
-	private final static long crunchifyTimerInterval = 500;
-	private final static CurrencyRatesInMemoryCache< String, HashMap< String, Double > > cache = new CurrencyRatesInMemoryCache< String, HashMap< String, Double > >(
-			crunchifyTimeToLive, crunchifyTimerInterval );
+	private final static long cacheTimeToLive = 200;
+	private final static long cacheTimerInterval = 500;
+	private final static Cache< String, HashMap< String, Double > > cache = new Cache< String, HashMap< String, Double > >(
+			cacheTimeToLive, cacheTimerInterval );
 
 	@Autowired
 	public void setExchangeQueryService( ExchangeQueryService exchangeQueryService ) {
@@ -45,7 +45,7 @@ public class ExchangeQueryController {
 	}
 
 	@Autowired
-	public void setExchangeQueryForm( ExchangeQueryForm exchangeQueryForm ) {
+	public void setExchangeQueryForm( CurrencyExchangeQueryForm exchangeQueryForm ) {
 		this.exchangeQueryForm = exchangeQueryForm;
 	}
 
@@ -82,14 +82,14 @@ public class ExchangeQueryController {
 		Double rate = cache.get( this.exchangeQueryForm.getOriginCurrency() ).get(
 				this.exchangeQueryForm.getOriginCurrency().concat( this.exchangeQueryForm.getDestinationCurrency() ) );
 
-		ExchangeQuery exchangeQuery = new ExchangeQuery();
+		CurrencyExchangeQuery currencyExchangeQuery = new CurrencyExchangeQuery();
 
-		exchangeQuery.setOriginCurrency( this.exchangeQueryForm.getOriginCurrency() );
-		exchangeQuery.setDestinationCurrency( this.exchangeQueryForm.getDestinationCurrency() );
-		exchangeQuery.setQuantityOrigin( this.exchangeQueryForm.getQuantityOrigin() );
-		exchangeQuery.setExchangeRate( this.exchangeQueryForm.getQuantityOrigin() * rate );
+		currencyExchangeQuery.setOriginCurrency( this.exchangeQueryForm.getOriginCurrency() );
+		currencyExchangeQuery.setDestinationCurrency( this.exchangeQueryForm.getDestinationCurrency() );
+		currencyExchangeQuery.setQuantityOrigin( this.exchangeQueryForm.getQuantityOrigin() );
+		currencyExchangeQuery.setExchangeRate( this.exchangeQueryForm.getQuantityOrigin() * rate );
 
-		model.addAttribute( "queryForm", exchangeQuery );
+		model.addAttribute( "queryForm", currencyExchangeQuery );
 		model.addAttribute( "rate", rate );
 
 		populateDefaultModel( model );
@@ -99,21 +99,21 @@ public class ExchangeQueryController {
 
 	// add query
 	@RequestMapping( value = "/currency_exchange/new", method = RequestMethod.POST )
-	public String showNew( @ModelAttribute( "queryForm" ) ExchangeQuery exchangeQuery, @RequestParam( required = false, value = "add" ) String add,
+	public String showNew( @ModelAttribute( "queryForm" ) CurrencyExchangeQuery currencyExchangeQuery, @RequestParam( required = false, value = "add" ) String add,
 			Model model, final RedirectAttributes redirectAttributes ) {
 		logger.debug( "showAddQueryForm()" );
 
-		this.exchangeQueryForm.setOriginCurrency( exchangeQuery.getOriginCurrency() );
-		this.exchangeQueryForm.setDestinationCurrency( exchangeQuery.getDestinationCurrency() );
-		this.exchangeQueryForm.setQuantityOrigin( exchangeQuery.getQuantityOrigin() );
-		this.exchangeQueryForm.setExchangeRate( exchangeQuery.getExchangeRate() );
-		exchangeQuery.setUserId( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getId() );
+		this.exchangeQueryForm.setOriginCurrency( currencyExchangeQuery.getOriginCurrency() );
+		this.exchangeQueryForm.setDestinationCurrency( currencyExchangeQuery.getDestinationCurrency() );
+		this.exchangeQueryForm.setQuantityOrigin( currencyExchangeQuery.getQuantityOrigin() );
+		this.exchangeQueryForm.setExchangeRate( currencyExchangeQuery.getExchangeRate() );
+		currencyExchangeQuery.setUserId( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getId() );
 
 		if ( add != null ) {
 			redirectAttributes.addFlashAttribute( "css", "success" );
 			redirectAttributes.addFlashAttribute( "msg", "Added!!" );
 
-			exchangeQueryService.save( exchangeQuery );
+			exchangeQueryService.save( currencyExchangeQuery );
 		}
 
 		return "redirect:/currency_exchange/new";
@@ -124,12 +124,12 @@ public class ExchangeQueryController {
 	public String currentExchangeRates( Model model ) {
 		logger.debug( "currentExchangeRates()" );
 
-		List< ExchangeRate > exchangeRateList = new ArrayList< ExchangeRate >();
+		List< CurrencyExchangeRate > exchangeRateList = new ArrayList< CurrencyExchangeRate >();
 
 		HashMap< String, Double > cacheContentHashMap = cache.get( "USD" );
 		for ( Map.Entry< String, Double > entry : cacheContentHashMap.entrySet() ) {
 			if ( !entry.getKey().substring( 3 ).equals( "USD" ) ) {
-				ExchangeRate exchangeRate = new ExchangeRate( "USD", entry.getKey().substring( 3 ), entry.getValue() );
+				CurrencyExchangeRate exchangeRate = new CurrencyExchangeRate( "USD", entry.getKey().substring( 3 ), entry.getValue() );
 				exchangeRateList.add( exchangeRate );
 			}
 		}
