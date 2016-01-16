@@ -40,13 +40,13 @@ input {
 }
 
 /* ---------- LOGIN ---------- */
-#login {
+.main_small {
 	margin: 25px auto;
-	width: 400px;
+	width: 450px;
 	text-align: center;
 }
 
-#main {
+.main_big {
 	margin: 25px auto;
 	width: 800px;
 	text-align: center;
@@ -54,7 +54,7 @@ input {
 
 h1 {
 	color: #fff;
-	font-size: 20px;
+	font-size: 2em;
 }
 
 h2 {
@@ -118,12 +118,13 @@ input {
 	border-radius: 3px;
 }
 
-input[type="email"], fieldset input[type="password"], fieldset input[type="text"]
+input[type="email"], input[type="password"], input[type="text"]
 	{
 	background-color: #eee;
 	color: #777;
 	padding: 7px 10px;
 	width: 300px;
+	margin: 5px 5px;
 }
 
 input[type="submit"] {
@@ -137,6 +138,12 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
 	background-color: #7ed3fd;
+}
+
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+    outline: none !important;
+    border:1px solid #bce8f1;
+    box-shadow: 0 0 10px #719ECE;
 }
 
 button {

@@ -9,7 +9,7 @@
 
 <jsp:include page="../fragments/header.jsp" />
 
-<div id="main">
+<div class="main_big">
 	<h2>User Detail</h2>
 	<fieldset>
 		<c:if test="${not empty msg}">

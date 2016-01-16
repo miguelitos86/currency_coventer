@@ -11,7 +11,7 @@
 <spring:url value="/currency_exchange/new" var="urlNew" />
 
 <body>
-	<div id="main">
+	<div class="main_big">
 		<h2>
 			<spring:message code="Query.NewQuery" />
 		</h2>

@@ -9,7 +9,7 @@
 <jsp:include page="../fragments/header.jsp" />
 
 <body>
-	<div id="main">
+	<div class="main_big">
 		<h2>Current Exchange Rates</h2>
 
 		<table>

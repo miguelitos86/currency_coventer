@@ -11,13 +11,12 @@
 <spring:url value="/users/add" var="urlAddUser" />
 
 <body>
-	<div id="login">
+	<div class="main_small">
 		<h2>
 			<span class="fontawesome-lock"></span>Sign In
 		</h2>
 
 		<form action="j_spring_security_check" method="post">
-
 			<fieldset>
 				<c:if test="${error eq true}">
 					<div class="error" role="error">error login</div>
@@ -26,8 +25,6 @@
 					<div class="msg">logout success</div>
 				</c:if>
 
-
-
 				<p>
 					<span class="entypo-mail"> <input type="email" class="user"
 						placeholder="email@example.com"
@@ -35,7 +32,7 @@
 				</p>
 
 				<p>
-					<span class="entypo-key inputPassIcon"> <input
+					<span class="entypo-key"> <input
 						type="password" class="pass"
 						placeholder="<spring:message code="Common.Password" />"
 						name="password" required/></span>
