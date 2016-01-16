@@ -40,6 +40,10 @@ public class UserFormValidator implements Validator {
 			errors.rejectValue( "email", "Pattern.userForm.email" );
 		}
 		
+		if( userService.findByEmail( user.getEmail() ) != null ) {
+			errors.rejectValue( "email", "User.AlreadyExist" );
+		}
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "dateOfBirth", "NotEmpty.userForm.dateOfBirth" );
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "password", "NotEmpty.userForm.password" );
@@ -50,6 +54,10 @@ public class UserFormValidator implements Validator {
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "street", "NotEmpty.userForm.street" );
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "zipCode", "NotEmpty.userForm.zipCode" );
+		if ( user.getZipCode() != null && !zipCodeValidator.valid( user.getZipCode().toString() ) ) {
+			errors.rejectValue( "zipCode", "NotValid.zipCode" );
+		}
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "city", "NotEmpty.userForm.city" );
 		
 		if ( user.getCountry().equals( "NONE" ) ) {
