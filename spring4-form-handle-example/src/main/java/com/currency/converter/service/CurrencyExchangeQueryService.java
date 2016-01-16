@@ -1,10 +1,10 @@
-package com.currency.converter.dao;
+package com.currency.converter.service;
 
 import java.util.List;
 
 import com.currency.converter.model.CurrencyExchangeQuery;
 
-public interface ExchangeQueryDao {
+public interface CurrencyExchangeQueryService {
 
 	List< CurrencyExchangeQuery > findAll();
 
@@ -13,6 +13,6 @@ public interface ExchangeQueryDao {
 	void save( CurrencyExchangeQuery currencyExchangeQuery );
 
 	void delete( Integer id );
-	
+
 	CurrencyExchangeQuery findById( Integer id );
 }

@@ -16,6 +16,10 @@ public class UserFormValidator implements Validator {
 	@Autowired
 	@Qualifier( "emailValidator" )
 	EmailValidator emailValidator;
+	
+	@Autowired
+	@Qualifier( "zipCodeValidator" )
+	ZipCodeValidator zipCodeValidator;
 
 	@Autowired
 	UserService userService;
@@ -32,22 +36,25 @@ public class UserFormValidator implements Validator {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "name", "NotEmpty.userForm.name" );
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "email", "NotEmpty.userForm.email" );
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "password", "NotEmpty.userForm.password" );
-
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "confirmPassword", "NotEmpty.userForm.confirmPassword" );
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "country", "NotEmpty.userForm.country" );
-
-		if ( !emailValidator.valid( user.getEmail() ) ) {
+		if ( !user.getEmail().isEmpty() && !emailValidator.valid( user.getEmail() ) ) {
 			errors.rejectValue( "email", "Pattern.userForm.email" );
 		}
-		if ( user.getCountry().equalsIgnoreCase( "none" ) ) {
-			errors.rejectValue( "country", "NotEmpty.userForm.country" );
-		}
-
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "dateOfBirth", "NotEmpty.userForm.dateOfBirth" );
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "password", "NotEmpty.userForm.password" );
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "confirmPassword", "NotEmpty.userForm.confirmPassword" );
 		if ( !user.getPassword().equals( user.getConfirmPassword() ) ) {
 			errors.rejectValue( "confirmPassword", "Diff.userform.confirmPassword" );
 		}
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "street", "NotEmpty.userForm.street" );
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "zipCode", "NotEmpty.userForm.zipCode" );
+		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "city", "NotEmpty.userForm.city" );
+		
+		if ( user.getCountry().equals( "NONE" ) ) {
+			errors.rejectValue( "country", "NotEmpty.userForm.country" );
+		}
 
 	}
-
 }

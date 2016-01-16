@@ -61,7 +61,7 @@ public class Cache< K, V > {
 			CacheObject c = ( CacheObject ) cache.get( key );
 
 			if ( c == null ) {
-				CurrencyExchangeRateAPI currencyExchangeRate = response.sendRequest( (String) key );
+				CurrencyExchangeRateAPI currencyExchangeRate = response.sendRequest( ( String ) key );
 
 				put( ( K ) key, ( V ) currencyExchangeRate.getQuotes() );
 
@@ -112,7 +112,6 @@ public class Cache< K, V > {
 			synchronized (cache) {
 				cache.remove( key );
 			}
-
 			Thread.yield();
 		}
 	}

@@ -63,7 +63,7 @@
 	<bean id="userDao" class="com.currency.converter.dao.UserDaoImpl" />
 
 	<bean id="exchangeQueryDao"
-		class="com.currency.converter.dao.ExchangeQueryDaoImpl" />
+		class="com.currency.converter.dao.CurrencyExchangeQueryDaoImpl" />
 
 	<bean id="customUserDetailsService"
 		class="com.currency.converter.security.CustomUserDetailsService">
@@ -81,7 +81,7 @@
 		<sec:intercept-url pattern="/login/**" access="permitAll" />
 		<sec:intercept-url pattern="/users/**" access="permitAll" />
 		<sec:intercept-url pattern="/**" access="isAuthenticated()" />
-		<sec:form-login login-page="/login" default-target-url="/currency_exchange/current"
+		<sec:form-login login-page="/login" default-target-url="/currency_exchange/list"
 			always-use-default-target="true" authentication-failure-url="/login?error=true"
 			username-parameter="username" password-parameter="password" />
 		<sec:logout logout-success-url="/login?logout=true"

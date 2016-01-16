@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.currency.converter.dao.ExchangeQueryDao;
+import com.currency.converter.dao.CurrencyExchangeQueryDao;
 import com.currency.converter.model.CurrencyExchangeQuery;
 
 @Service( "exchangeQueryService" )
-public class ExchangeQueryServiceImpl implements ExchangeQueryService {
+public class CurrencyExchangeQueryServiceImpl implements CurrencyExchangeQueryService {
 
-	ExchangeQueryDao exchangeQueryDao;
+	CurrencyExchangeQueryDao exchangeQueryDao;
 
 	@Autowired
-	public void setExchangeQueryDao( ExchangeQueryDao exchangeQueryDao ) {
+	public void setExchangeQueryDao( CurrencyExchangeQueryDao exchangeQueryDao ) {
 		this.exchangeQueryDao = exchangeQueryDao;
 	}
 

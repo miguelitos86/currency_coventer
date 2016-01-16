@@ -1,24 +1,24 @@
-<%@ page session="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <jsp:include page="../fragments/header.jsp" />
 
 <body>
 	<div class="main_big">
-		<h2>Current Exchange Rates</h2>
+		<h2><spring:message code="CurrencyExchange.Current" /></h2>
 
 		<table>
 			<tr>
-				<th>Origin Currency : <select>
+				<th><spring:message code="CurrencyExchange.Query.OriginCurrency" /> : <select>
 						<option value="USD">USD</option>
-				</select></th>
+				</select>
+				</th>
 				<th>1.00 USD</th>
-				<th>inv. 1.00 USD</th>
+				<th><spring:message code="CurrencyExchange.Query.Inv" /> 1.00 USD</th>
 			</tr>
 
 			<c:forEach var="current" items="${current}">

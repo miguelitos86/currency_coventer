@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.currency.converter.model.CurrencyExchangeQuery;
 
-public class ExchangeQueryDaoImpl implements ExchangeQueryDao {
+public class CurrencyExchangeQueryDaoImpl implements CurrencyExchangeQueryDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;

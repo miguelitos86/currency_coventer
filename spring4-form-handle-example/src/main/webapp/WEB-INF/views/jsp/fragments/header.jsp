@@ -21,6 +21,9 @@
 </sec:authorize>
 <nav>
 	<ul>
+		<li class="floatLeft"><a href="${urlList}"><spring:message
+					code="Common.Application.Title" /></a></li>
+					
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatLeft"><a href="${urlCurrent}"><spring:message
 						code="Common.CurrentExchangeRate" /></a></li>
@@ -28,12 +31,12 @@
 
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatLeft"><a href="${urlList}"><spring:message
-						code="Query.Historical" /></a></li>
+						code="CurrencyExchange.Query.Historical" /></a></li>
 		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatLeft"><a href="${urlNewQuery}"><spring:message
-						code="Query.NewQuery" /></a></li>
+						code="CurrencyExchange.Query.NewQuery" /></a></li>
 		</sec:authorize>
 
 		<c:if test="${pageContext.response.locale == 'de' }">
@@ -49,12 +52,12 @@
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatRight"><a
 				href="<c:url value="/perform_logout" />"><spring:message
-						code="Common.Logout" /> <span class="entypo-logout"></span></a></li>
+						code="Login.Logout" /> <span class="entypo-logout"></span></a></li>
 		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatRight"><a href="${urlMyData}"><spring:message
-						code="Common.MyData" /></a></li>
+						code="User.MyData" /></a></li>
 		</sec:authorize>
 	</ul>
 </nav>

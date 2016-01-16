@@ -11,117 +11,108 @@
 
 <spring:url value="/users" var="userActionUrl" />
 
+<spring:message code="User.ID" var="ID" />
+<spring:message code="User.Name" var="Name" />
+<spring:message code="User.Email" var="Email" />
+<spring:message code="User.DateOfBirth" var="DateOfBirth" />
+<spring:message code="User.Password" var="Password" />
+<spring:message code="User.ConfirmPassword" var="ConfirmPassword" />
+<spring:message code="User.Street" var="Street" />
+<spring:message code="User.ZipCode" var="ZipCode" />
+<spring:message code="User.City" var="City" />
+<spring:message code="User.Country" var="Country" />
+<spring:message code="User.Add" var="Add" />
+<spring:message code="User.Update" var="Update" />
+
 <body>
 	<div class="main_small">
 		<c:choose>
 			<c:when test="${empty userForm.id}">
-				<h2>Add User</h2>
+				<h2>${Add}</h2>
 			</c:when>
 			<c:otherwise>
-				<h2>Update User</h2>
+				<h2>${Update}</h2>
 			</c:otherwise>
 		</c:choose>
 
 		<fieldset>
-			<c:if test="${not empty msg}">
-				<div class="alert alert-${css} alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<strong>${msg}</strong>
+			<spring:hasBindErrors name="userForm">
+				<div class="error-area">
+					<c:forEach var="error" items="${errors.allErrors}">
+						<b><spring:message message="${error}" /></b>
+						<br />
+					</c:forEach>
 				</div>
-			</c:if>
+			</spring:hasBindErrors>
+
 			<form:form method="post" modelAttribute="userForm"
 				action="${userActionUrl}">
 
+				<c:if test="${not empty userForm.id}">
+					<spring:bind path="id">
+						<form:input path="id" type="text" placeholder="${ID}"
+							class="${status.error ? 'has-error' : ''}" readonly="true" />
+					</spring:bind>
+				</c:if>
+
 				<spring:bind path="name">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="name" type="text" id="name" placeholder="Name" />
-						<form:errors path="name" class="control-label" />
-					</div>
+					<form:input path="name" type="text" placeholder="${Name}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="email">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="email" class="form-control" id="email"
-							placeholder="Email" />
-						<form:errors path="email" class="control-label" />
-					</div>
+					<form:input path="email" placeholder="${Email}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="dateOfBirth">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="dateOfBirth" id="dateOfBirth" placeholder="Date of Birth - 01/01/1990" />
-						<form:errors path="dateOfBirth" class="control-label" />
-					</div>
+					<form:input path="dateOfBirth" placeholder="${DateOfBirth}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="password">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:password path="password" class="form-control" id="password"
-							placeholder="password" showPassword="true" />
-						<form:errors path="password" class="control-label" />
-					</div>
+					<form:password path="password" placeholder="${Password}"
+						showPassword="true" class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="confirmPassword">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:password path="confirmPassword" class="form-control"
-							id="password" placeholder="repeat password" showPassword="true" />
-						<form:errors path="confirmPassword" class="control-label" />
-					</div>
+					<form:password path="confirmPassword"
+						placeholder="${ConfirmPassword}" showPassword="true"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="street">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="street" class="form-control" id="street"
-							placeholder="street" />
-						<form:errors path="street" class="control-label" />
-						<div class="col-sm-5"></div>
-					</div>
+					<form:input path="street" placeholder="${Street}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="zipCode">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="zipCode" class="form-control" id="zipCode"
-							placeholder="zipCode" />
-						<form:errors path="zipCode" class="control-label" />
-						<div class="col-sm-5"></div>
-					</div>
+					<form:input path="zipCode" placeholder="${ZipCode}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="city">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:input path="city" class="form-control" id="city"
-							placeholder="city" />
-						<form:errors path="city" class="control-label" />
-						<div class="col-sm-5"></div>
-					</div>
+					<form:input path="city" placeholder="${City}"
+						class="${status.error ? 'has-error' : ''}" />
 				</spring:bind>
 
 				<spring:bind path="country">
-					<div class="form-group ${status.error ? 'has-error' : ''}">
-						<form:select path="country" class="form-control">
-							<form:option style="witdh:300px" value="NONE" label="Country" />
-							<form:options items="${countryList}" />
-						</form:select>
-						<form:errors path="country" class="control-label" />
-					</div>
+					<form:select path="country" style="width: 320px;text-align: left;"
+						class="${status.error ? 'has-error' : ''}">
+						<form:option value="NONE" label="${Country}" />
+						<form:options items="${countryList}" />
+					</form:select>
 				</spring:bind>
 
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<c:choose>
-							<c:when test="${empty userForm.id}">
-								<button type="submit" class="btn-lg btn-primary pull-right">Add</button>
-							</c:when>
-							<c:otherwise>
-								<button type="submit" class="btn-lg btn-primary pull-right">Update</button>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
+				<c:choose>
+					<c:when test="${empty userForm.id}">
+						<button type="submit" class="button">${Add}</button>
+					</c:when>
+					<c:otherwise>
+						<button type="submit" class="button">${Update}</button>
+					</c:otherwise>
+				</c:choose>
+
 			</form:form>
 		</fieldset>
 	</div>

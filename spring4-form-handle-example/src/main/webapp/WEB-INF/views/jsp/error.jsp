@@ -1,23 +1,22 @@
-<%@ page session="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <jsp:include page="fragments/header.jsp" />
 
 <body>
-
-	<div class="container">
-
-		<h1>Error Page</h1>
-
-		<p>${exception.message}</p>
-
+	<div class="main_big">
+		<h2>
+			<spring:message code="Common.ErrorTitle" />
+		</h2>
+		<fieldset>
+			<spring:message code="Common.Error" />
+			<p>${exception.message}</p>
+		</fieldset>
 	</div>
 
 	<jsp:include page="fragments/footer.jsp" />
-
 </body>
 </html>

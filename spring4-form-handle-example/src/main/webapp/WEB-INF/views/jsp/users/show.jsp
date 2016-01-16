@@ -1,46 +1,33 @@
-<%@ page session="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <jsp:include page="../fragments/header.jsp" />
 
-<div class="main_big">
-	<h2>User Detail</h2>
-	<fieldset>
-		<c:if test="${not empty msg}">
-			<div class="alert alert-${css} alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+<body>
+	<div class="main_small">
+		<h2>User Detail</h2>
+		<fieldset>
+			<c:if test="${not empty msg}">
+				<div class="alertNoMargin alert-${css}" role="alert">
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+			<input type="text" placeholder="${user.name}" readonly /> <input
+				type="text" placeholder="${user.email}" readonly /> <input
+				type="text" placeholder="${user.dateOfBirth}" readonly /> <input
+				type="text" placeholder="${user.street}" readonly /> <input
+				type="text" placeholder="${user.zipCode}" readonly /> <input
+				type="text" placeholder="${user.city}" readonly /> <input
+				type="text" placeholder="${user.country}" readonly />
+		</fieldset>
+	</div>
 
-				<strong>${msg}</strong>
-			</div>
-		</c:if>
-
-		<div class="row">
-			<label class="col-sm-2">ID</label>
-			<div class="col-sm-10">${user.id}</div>
-		</div>
-
-		<div class="row">
-			<label class="col-sm-2">Name</label>
-			<div class="col-sm-10">${user.name}</div>
-		</div>
-
-		<div class="row">
-			<label class="col-sm-2">Email</label>
-			<div class="col-sm-10">${user.email}</div>
-		</div>
-	</fieldset>
-</div>
-
-<jsp:include page="../fragments/footer.jsp" />
+	<jsp:include page="../fragments/footer.jsp" />
 
 </body>
 </html>

@@ -24,14 +24,14 @@ import com.currency.converter.model.CurrencyExchangeQuery;
 import com.currency.converter.model.CurrencyExchangeQueryForm;
 import com.currency.converter.model.CurrencyExchangeRate;
 import com.currency.converter.security.CustomUserDetails;
-import com.currency.converter.service.ExchangeQueryService;
+import com.currency.converter.service.CurrencyExchangeQueryService;
 
 @Controller
 public class CurrencyExchangeController {
 
 	private final Logger logger = LoggerFactory.getLogger( CurrencyExchangeController.class );
 
-	private ExchangeQueryService exchangeQueryService;
+	private CurrencyExchangeQueryService exchangeQueryService;
 	private CurrencyExchangeQueryForm exchangeQueryForm;
 
 	private final static long cacheTimeToLive = 200;
@@ -40,13 +40,19 @@ public class CurrencyExchangeController {
 			cacheTimeToLive, cacheTimerInterval );
 
 	@Autowired
-	public void setExchangeQueryService( ExchangeQueryService exchangeQueryService ) {
+	public void setExchangeQueryService( CurrencyExchangeQueryService exchangeQueryService ) {
 		this.exchangeQueryService = exchangeQueryService;
 	}
 
 	@Autowired
 	public void setExchangeQueryForm( CurrencyExchangeQueryForm exchangeQueryForm ) {
 		this.exchangeQueryForm = exchangeQueryForm;
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String index(Model model) {
+		logger.debug("index()");
+		return "redirect:/currency_exchange/list";
 	}
 
 	// list page queries
@@ -89,7 +95,7 @@ public class CurrencyExchangeController {
 		currencyExchangeQuery.setQuantityOrigin( this.exchangeQueryForm.getQuantityOrigin() );
 		currencyExchangeQuery.setExchangeRate( this.exchangeQueryForm.getQuantityOrigin() * rate );
 
-		model.addAttribute( "queryForm", currencyExchangeQuery );
+		model.addAttribute( "currencyExchangeQueryForm", currencyExchangeQuery );
 		model.addAttribute( "rate", rate );
 
 		populateDefaultModel( model );
@@ -99,7 +105,7 @@ public class CurrencyExchangeController {
 
 	// add query
 	@RequestMapping( value = "/currency_exchange/new", method = RequestMethod.POST )
-	public String showNew( @ModelAttribute( "queryForm" ) CurrencyExchangeQuery currencyExchangeQuery, @RequestParam( required = false, value = "add" ) String add,
+	public String showNew( @ModelAttribute( "currencyExchangeQueryForm" ) CurrencyExchangeQuery currencyExchangeQuery, @RequestParam( required = false, value = "add" ) String add,
 			Model model, final RedirectAttributes redirectAttributes ) {
 		logger.debug( "showAddQueryForm()" );
 
