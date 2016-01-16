@@ -96,18 +96,21 @@ public class UserController {
 
 		logger.debug( "showUpdateUserForm() : {}", id );
 
-		CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		if ( !customUserDetails.getId().equals( id ) ) {
+		if ( !getIsUserLogged() ) {
 			return "security_error";
 		} else {
-			User user = userService.findById( id );
-			user.setConfirmPassword( user.getPassword() );
-			model.addAttribute( "userForm", user );
+			CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if ( !customUserDetails.getId().equals( id ) ) {
+				return "security_error";
+			} else {
+				User user = userService.findById( id );
+				user.setConfirmPassword( user.getPassword() );
+				model.addAttribute( "userForm", user );
 
-			populateDefaultModel( model );
+				populateDefaultModel( model );
 
-			return "users/userform";
+				return "users/userform";
+			}
 		}
 	}
 
@@ -116,21 +119,14 @@ public class UserController {
 	public String showUser( @PathVariable( "id" ) int id, Model model ) {
 		logger.debug( "showUser() id: {}", id );
 
-		CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		if ( !customUserDetails.getId().equals( id ) ) {
-			return "security_error";
-		} else {
-			User user = userService.findById( id );
-			if ( user == null ) {
-				model.addAttribute( "css", "danger" );
-				model.addAttribute( "msg", "User not found" );
-			}
-			model.addAttribute( "user", user );
-
-			return "users/show";
+		User user = userService.findById( id );
+		if ( user == null ) {
+			model.addAttribute( "css", "error" );
+			model.addAttribute( "msg", "User not found" );
 		}
+		model.addAttribute( "user", user );
 
+		return "users/show";
 	}
 
 	private void populateDefaultModel( Model model ) {
@@ -157,4 +153,8 @@ public class UserController {
 
 	}
 
+	public boolean getIsUserLogged() {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		return ( !name.equals( "anonymousUser" ) ) ? true : false;
+	}
 }

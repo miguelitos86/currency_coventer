@@ -10,20 +10,25 @@
 
 <body>
 	<div class="main_small">
-		<h2>User Detail</h2>
+		<h2>
+			<spring:message code="User.Details" />
+		</h2>
 		<fieldset>
 			<c:if test="${not empty msg}">
 				<div class="alertNoMargin alert-${css}" role="alert">
 					<strong>${msg}</strong>
 				</div>
 			</c:if>
-			<input type="text" placeholder="${user.name}" readonly /> <input
-				type="text" placeholder="${user.email}" readonly /> <input
-				type="text" placeholder="${user.dateOfBirth}" readonly /> <input
-				type="text" placeholder="${user.street}" readonly /> <input
-				type="text" placeholder="${user.zipCode}" readonly /> <input
-				type="text" placeholder="${user.city}" readonly /> <input
-				type="text" placeholder="${user.country}" readonly />
+			<c:if test="${css != 'error'}">
+				<input type="text" placeholder="${user.name}" readonly />
+				<input type="text" placeholder="${user.email}" readonly />
+				<input type="text" placeholder="${user.dateOfBirth}" readonly />
+				<input type="text" placeholder="${user.street}" readonly />
+				<input type="text" placeholder="${user.zipCode}" readonly />
+				<input type="text" placeholder="${user.city}" readonly />
+				<input type="text" placeholder="${user.country}" readonly />
+			</c:if>
+
 		</fieldset>
 	</div>
 

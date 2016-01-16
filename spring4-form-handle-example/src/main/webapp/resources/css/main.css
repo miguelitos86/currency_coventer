@@ -326,6 +326,12 @@ tr:nth-child(odd) td {
 	color: #3c763d;
 }
 
+.alert-error {
+	color: #a94442;
+	background-color: #fdb4b4;
+	border-color: #ebccd1;
+}
+
 .error-area {
 	font-size:small;
 	padding: 5px;

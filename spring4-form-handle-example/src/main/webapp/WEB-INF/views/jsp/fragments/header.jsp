@@ -17,7 +17,8 @@
 <spring:url value="/currency_exchange/current" var="urlCurrent" />
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.id" var="userID" />
-	<spring:url value="/users/${userID}/update/" var="urlMyData" />
+	<spring:url value="/users/${userID}/update/" var="urlUserUpdate" />
+	<spring:url value="/users/${userID}" var="urlUserDetails" />
 </sec:authorize>
 <nav>
 	<ul>
@@ -54,10 +55,15 @@
 				href="<c:url value="/perform_logout" />"><spring:message
 						code="Login.Logout" /> <span class="entypo-logout"></span></a></li>
 		</sec:authorize>
+		
+				<sec:authorize access="isAuthenticated()">
+			<li class="floatRight"><a href="${urlUserUpdate}"><spring:message
+						code="User.Update" /></a></li>
+		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
-			<li class="floatRight"><a href="${urlMyData}"><spring:message
-						code="User.MyData" /></a></li>
+			<li class="floatRight"><a href="${urlUserDetails}"><spring:message
+						code="User.Details" /></a></li>
 		</sec:authorize>
 	</ul>
 </nav>
