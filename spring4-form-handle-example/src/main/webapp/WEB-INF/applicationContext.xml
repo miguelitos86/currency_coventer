@@ -88,13 +88,15 @@
 			invalidate-session="true" logout-url="/perform_logout" />
 	</sec:http>
 
-
+ <bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+ 
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider
 			user-service-ref="customUserDetailsService">
-			<sec:password-encoder hash="plaintext" />
+			<sec:password-encoder ref="bcryptEncoder"/>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
+
 
 
 	<cache:annotation-driven />
