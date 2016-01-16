@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public User findById( Integer id ) {
-		Query query = entityManager.createQuery( "FROM User WHERE ID = :id" )
+		Query query = entityManager.createQuery( "FROM User WHERE UserID = :id" )
 				.setParameter( "id", id );
 		List< User > list = query.getResultList();
 

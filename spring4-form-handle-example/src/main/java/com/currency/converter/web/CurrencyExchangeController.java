@@ -25,6 +25,7 @@ import com.currency.converter.model.CurrencyExchangeQueryForm;
 import com.currency.converter.model.CurrencyExchangeRate;
 import com.currency.converter.security.CustomUserDetails;
 import com.currency.converter.service.CurrencyExchangeQueryService;
+import com.currency.converter.service.UserService;
 
 @Controller
 public class CurrencyExchangeController {
@@ -33,11 +34,11 @@ public class CurrencyExchangeController {
 
 	private CurrencyExchangeQueryService exchangeQueryService;
 	private CurrencyExchangeQueryForm exchangeQueryForm;
+	private UserService userService;
 
 	private final static long cacheTimeToLive = 200;
 	private final static long cacheTimerInterval = 500;
-	private final static Cache< String, HashMap< String, Double > > cache = new Cache< String, HashMap< String, Double > >(
-			cacheTimeToLive, cacheTimerInterval );
+	private final static Cache< String, HashMap< String, Double > > cache = new Cache< String, HashMap< String, Double > >( cacheTimeToLive, cacheTimerInterval );
 
 	@Autowired
 	public void setExchangeQueryService( CurrencyExchangeQueryService exchangeQueryService ) {
@@ -48,10 +49,15 @@ public class CurrencyExchangeController {
 	public void setExchangeQueryForm( CurrencyExchangeQueryForm exchangeQueryForm ) {
 		this.exchangeQueryForm = exchangeQueryForm;
 	}
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) {
-		logger.debug("index()");
+
+	@Autowired
+	public void setUserService( UserService userService ) {
+		this.userService = userService;
+	}
+
+	@RequestMapping( value = "/", method = RequestMethod.GET )
+	public String index( Model model ) {
+		logger.debug( "index()" );
 		return "redirect:/currency_exchange/list";
 	}
 
@@ -105,15 +111,15 @@ public class CurrencyExchangeController {
 
 	// add query
 	@RequestMapping( value = "/currency_exchange/new", method = RequestMethod.POST )
-	public String showNew( @ModelAttribute( "currencyExchangeQueryForm" ) CurrencyExchangeQuery currencyExchangeQuery, @RequestParam( required = false, value = "add" ) String add,
-			Model model, final RedirectAttributes redirectAttributes ) {
+	public String showNew( @ModelAttribute( "currencyExchangeQueryForm" ) CurrencyExchangeQuery currencyExchangeQuery,
+			@RequestParam( required = false, value = "add" ) String add, Model model, final RedirectAttributes redirectAttributes ) {
 		logger.debug( "showAddQueryForm()" );
 
 		this.exchangeQueryForm.setOriginCurrency( currencyExchangeQuery.getOriginCurrency() );
 		this.exchangeQueryForm.setDestinationCurrency( currencyExchangeQuery.getDestinationCurrency() );
 		this.exchangeQueryForm.setQuantityOrigin( currencyExchangeQuery.getQuantityOrigin() );
 		this.exchangeQueryForm.setExchangeRate( currencyExchangeQuery.getExchangeRate() );
-		currencyExchangeQuery.setUserId( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getId() );
+		currencyExchangeQuery.setUser( userService.findById( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getId() ) );
 
 		if ( add != null ) {
 			redirectAttributes.addFlashAttribute( "css", "success" );
@@ -141,7 +147,7 @@ public class CurrencyExchangeController {
 		}
 
 		model.addAttribute( "current", exchangeRateList );
-		
+
 		populateDefaultModel( model );
 
 		return "currency_exchange/current";

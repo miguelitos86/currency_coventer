@@ -27,7 +27,7 @@
 <body>
 	<div class="main_small">
 		<c:choose>
-			<c:when test="${empty userForm.id}">
+			<c:when test="${empty userForm.userID}">
 				<h2>${Add}</h2>
 			</c:when>
 			<c:otherwise>
@@ -48,9 +48,9 @@
 			<form:form method="post" modelAttribute="userForm"
 				action="${userActionUrl}">
 
-				<c:if test="${not empty userForm.id}">
-					<spring:bind path="id">
-						<form:input path="id" type="text" placeholder="${ID}"
+				<c:if test="${not empty userForm.userID}">
+					<spring:bind path="userID">
+						<form:input path="userID" type="text" placeholder="${ID}"
 							class="${status.error ? 'has-error' : ''}" readonly="true" />
 					</spring:bind>
 				</c:if>
@@ -105,7 +105,7 @@
 				</spring:bind>
 
 				<c:choose>
-					<c:when test="${empty userForm.id}">
+					<c:when test="${empty userForm.userID}">
 						<button type="submit" class="button">${Add}</button>
 					</c:when>
 					<c:otherwise>

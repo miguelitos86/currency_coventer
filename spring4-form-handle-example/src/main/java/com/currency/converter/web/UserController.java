@@ -63,7 +63,7 @@ public class UserController {
 		} else {
 
 			redirectAttributes.addFlashAttribute( "css", "success" );
-			if ( userService.findById( user.getId() ) == null ) {
+			if ( userService.findById( user.getUserID() ) == null ) {
 				redirectAttributes.addFlashAttribute( "msg",
 						"User added successfully!" );
 			} else {
@@ -73,7 +73,7 @@ public class UserController {
 
 			userService.saveOrUpdate( user );
 
-			return "redirect:/users/" + user.getId();
+			return "redirect:/users/" + user.getUserID();
 		}
 	}
 

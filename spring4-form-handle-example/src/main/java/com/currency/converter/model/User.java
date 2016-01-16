@@ -1,26 +1,30 @@
 package com.currency.converter.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table( name = "User" )
+@Table( name = "User", uniqueConstraints = @UniqueConstraint( columnNames = "EMail" ) )
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	public Integer id;
+
+	public Integer userID;
 	public String name;
 	public String email;
 	public Date dateOfBirth;
@@ -32,16 +36,19 @@ public class User implements Serializable {
 	public Integer zipCode;
 	public String city;
 	public String country;
+	
+	private Set<CurrencyExchangeQuery> currencyExchangeQuery = new HashSet<CurrencyExchangeQuery>(
+			0);
 
 	@Id
-	@GeneratedValue( strategy = IDENTITY )
-	@Column( name = "ID", unique = true, nullable = false )
-	public Integer getId() {
-		return id;
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	@Column( name = "UserID", unique = true, nullable = false )
+	public Integer getUserID() {
+		return userID;
 	}
 
-	public void setId( Integer id ) {
-		this.id = id;
+	public void setUserID( Integer userID ) {
+		this.userID = userID;
 	}
 
 	@Column( name = "Name", nullable = false )
@@ -53,7 +60,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	@Column( name = "EMail", nullable = false )
+	@Column( name = "EMail", unique = true, nullable = false )
 	public String getEmail() {
 		return email;
 	}
@@ -124,5 +131,14 @@ public class User implements Serializable {
 
 	public void setCountry( String country ) {
 		this.country = country;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<CurrencyExchangeQuery> getCurrencyExchangeQuery() {
+		return this.currencyExchangeQuery;
+	}
+
+	public void setCurrencyExchangeQuery(Set<CurrencyExchangeQuery> currencyExchangeQuery) {
+		this.currencyExchangeQuery = currencyExchangeQuery;
 	}
 }

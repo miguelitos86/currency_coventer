@@ -77,7 +77,7 @@ public class RESTFulController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation( ucBuilder.path( "/user/{id}" )
-				.buildAndExpand( user.getId() ).toUri() );
+				.buildAndExpand( user.getUserID() ).toUri() );
 		return new ResponseEntity< Void >( headers, HttpStatus.CREATED );
 	}
 

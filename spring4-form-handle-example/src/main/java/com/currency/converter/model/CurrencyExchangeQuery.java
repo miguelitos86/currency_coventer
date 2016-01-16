@@ -7,8 +7,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,12 +27,12 @@ public class CurrencyExchangeQuery implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	Integer id;
-	Integer userId;
 	String originCurrency;
 	String destinationCurrency;
 	Double exchangeRate;
 	Date createdDate;
 	Double quantityOrigin;
+	User user;
 
 	@Id
 	@GeneratedValue( strategy = IDENTITY )
@@ -42,13 +45,14 @@ public class CurrencyExchangeQuery implements Serializable {
 		this.id = id;
 	}
 
-	@Column( name = "UserId", nullable = false )
-	public Integer getUserId() {
-		return userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false)
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId( Integer userId ) {
-		this.userId = userId;
+	public void setUser( User user ) {
+		this.user = user;
 	}
 
 	@Column( name = "OriginCurrency", nullable = false )

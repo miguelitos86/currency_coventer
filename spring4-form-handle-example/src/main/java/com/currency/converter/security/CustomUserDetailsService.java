@@ -58,7 +58,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 	private CustomUserDetails buildUserForAuthentication( com.currency.converter.model.User user, List< GrantedAuthority > authorities ) {
-		return new CustomUserDetails( user.getName(), user.getPassword(), user.getId(), true, true, true, true, authorities );
+		return new CustomUserDetails( user.getName(), user.getPassword(), user.getUserID(), true, true, true, true, authorities );
 	}
 
 	private List< GrantedAuthority > buildUserAuthority() {

@@ -16,7 +16,7 @@ public class UserFormValidator implements Validator {
 	@Autowired
 	@Qualifier( "emailValidator" )
 	EmailValidator emailValidator;
-	
+
 	@Autowired
 	@Qualifier( "zipCodeValidator" )
 	ZipCodeValidator zipCodeValidator;
@@ -39,27 +39,27 @@ public class UserFormValidator implements Validator {
 		if ( !user.getEmail().isEmpty() && !emailValidator.valid( user.getEmail() ) ) {
 			errors.rejectValue( "email", "Pattern.userForm.email" );
 		}
-		
-		if( userService.findByEmail( user.getEmail() ) != null ) {
+
+		if ( user.getUserID() == null && userService.findByEmail( user.getEmail() ) != null ) {
 			errors.rejectValue( "email", "User.AlreadyExist" );
 		}
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "dateOfBirth", "NotEmpty.userForm.dateOfBirth" );
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "password", "NotEmpty.userForm.password" );
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "confirmPassword", "NotEmpty.userForm.confirmPassword" );
 		if ( !user.getPassword().equals( user.getConfirmPassword() ) ) {
 			errors.rejectValue( "confirmPassword", "Diff.userform.confirmPassword" );
 		}
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "street", "NotEmpty.userForm.street" );
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "zipCode", "NotEmpty.userForm.zipCode" );
 		if ( user.getZipCode() != null && !zipCodeValidator.valid( user.getZipCode().toString() ) ) {
 			errors.rejectValue( "zipCode", "NotValid.zipCode" );
 		}
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "city", "NotEmpty.userForm.city" );
-		
+
 		if ( user.getCountry().equals( "NONE" ) ) {
 			errors.rejectValue( "country", "NotEmpty.userForm.country" );
 		}
