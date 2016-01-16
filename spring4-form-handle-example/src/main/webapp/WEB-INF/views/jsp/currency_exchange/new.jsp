@@ -55,11 +55,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			var rate = $
-			{
-				rate
-			}
-			;
+			var rate = ${rate};
 			$("#quantityOrigin").change(function() {
 				var total = $('#quantityOrigin').val() * rate;
 				$('#exchangeRate').val(total);

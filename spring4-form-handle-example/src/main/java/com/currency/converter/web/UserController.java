@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,14 +25,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.currency.converter.model.User;
+import com.currency.converter.security.CustomUserDetails;
 import com.currency.converter.service.UserService;
 import com.currency.converter.validator.UserFormValidator;
 
 @Controller
 public class UserController {
 
-	private final Logger logger = LoggerFactory
-			.getLogger( UserController.class );
+	private final Logger logger = LoggerFactory.getLogger( UserController.class );
 
 	@Autowired
 	UserFormValidator userFormValidator;
@@ -50,9 +51,7 @@ public class UserController {
 
 	// save or update user
 	@RequestMapping( value = "/users", method = RequestMethod.POST )
-	public String saveOrUpdateUser(
-			@ModelAttribute( "userForm" ) @Validated User user,
-			BindingResult result, Model model,
+	public String saveOrUpdateUser( @ModelAttribute( "userForm" ) @Validated User user, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes ) {
 
 		logger.debug( "saveOrUpdateUser() : {}", user );
@@ -64,11 +63,9 @@ public class UserController {
 
 			redirectAttributes.addFlashAttribute( "css", "success" );
 			if ( userService.findById( user.getUserID() ) == null ) {
-				redirectAttributes.addFlashAttribute( "msg",
-						"User added successfully!" );
+				redirectAttributes.addFlashAttribute( "msg", "User added successfully!" );
 			} else {
-				redirectAttributes.addFlashAttribute( "msg",
-						"User updated successfully!" );
+				redirectAttributes.addFlashAttribute( "msg", "User updated successfully!" );
 			}
 
 			userService.saveOrUpdate( user );
@@ -99,29 +96,41 @@ public class UserController {
 
 		logger.debug( "showUpdateUserForm() : {}", id );
 
-		User user = userService.findById( id );
-		user.setConfirmPassword( user.getPassword() );
-		model.addAttribute( "userForm", user );
+		CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		populateDefaultModel( model );
+		if ( !customUserDetails.getId().equals( id ) ) {
+			return "security_error";
+		} else {
+			User user = userService.findById( id );
+			user.setConfirmPassword( user.getPassword() );
+			model.addAttribute( "userForm", user );
 
-		return "users/userform";
+			populateDefaultModel( model );
+
+			return "users/userform";
+		}
 	}
 
 	// show user
 	@RequestMapping( value = "/users/{id}", method = RequestMethod.GET )
 	public String showUser( @PathVariable( "id" ) int id, Model model ) {
-
 		logger.debug( "showUser() id: {}", id );
 
-		User user = userService.findById( id );
-		if ( user == null ) {
-			model.addAttribute( "css", "danger" );
-			model.addAttribute( "msg", "User not found" );
-		}
-		model.addAttribute( "user", user );
+		CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		return "users/show";
+		if ( !customUserDetails.getId().equals( id ) ) {
+			return "security_error";
+		} else {
+			User user = userService.findById( id );
+			if ( user == null ) {
+				model.addAttribute( "css", "danger" );
+				model.addAttribute( "msg", "User not found" );
+			}
+			model.addAttribute( "user", user );
+
+			return "users/show";
+		}
+
 	}
 
 	private void populateDefaultModel( Model model ) {

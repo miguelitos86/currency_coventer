@@ -19,18 +19,22 @@
 				<table>
 					<tr>
 						<th><spring:message code="CurrencyExchange.Query.CreatedDay" /></th>
+						<th><spring:message code="CurrencyExchange.Query.QuantityOrigin" /></th>
 						<th><spring:message code="CurrencyExchange.Query.OriginCurrency" /></th>
-						<th><spring:message code="CurrencyExchange.Query.TargetCurrency" /></th>
 						<th><spring:message code="CurrencyExchange.Query.ExchangeRate" /></th>
+						<th><spring:message code="CurrencyExchange.Query.TargetCurrency" /></th>
 						<th><spring:message code="Common.Action" /></th>
 					</tr>
 
 					<c:forEach var="element" items="${list}">
 						<tr>
 							<td>${element.createdDate}</td>
+							<td><fmt:formatNumber type="number" maxFractionDigits="6"
+							value="${element.quantityOrigin}" /></td>
 							<td>${element.originCurrency}</td>
+							<td><fmt:formatNumber type="number" maxFractionDigits="6"
+							value="${element.exchangeRate}" /></td>
 							<td>${element.destinationCurrency}</td>
-							<td>${element.exchangeRate}</td>
 							<td><spring:url
 									value="/currency_exchange/${element.id}/delete" var="deleteUrl" />
 								<button class="button"

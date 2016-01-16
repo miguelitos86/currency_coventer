@@ -18,6 +18,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table( name = "User", uniqueConstraints = @UniqueConstraint( columnNames = "EMail" ) )
 public class User implements Serializable {
@@ -30,6 +32,7 @@ public class User implements Serializable {
 	public Date dateOfBirth;
 
 	public String password;
+	@JsonIgnore
 	public String confirmPassword;
 
 	public String street;
@@ -37,6 +40,7 @@ public class User implements Serializable {
 	public String city;
 	public String country;
 	
+	@JsonIgnore
 	private Set<CurrencyExchangeQuery> currencyExchangeQuery = new HashSet<CurrencyExchangeQuery>(
 			0);
 

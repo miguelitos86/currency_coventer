@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
@@ -32,6 +34,7 @@ public class CurrencyExchangeQuery implements Serializable {
 	Double exchangeRate;
 	Date createdDate;
 	Double quantityOrigin;
+	@JsonIgnore
 	User user;
 
 	@Id

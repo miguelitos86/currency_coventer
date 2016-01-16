@@ -80,6 +80,7 @@
 		<sec:intercept-url pattern="/resources/**" access="permitAll" />
 		<sec:intercept-url pattern="/login/**" access="permitAll" />
 		<sec:intercept-url pattern="/users/**" access="permitAll" />
+		<sec:intercept-url pattern="/restful/**" access="permitAll" />
 		<sec:intercept-url pattern="/**" access="isAuthenticated()" />
 		<sec:form-login login-page="/login" default-target-url="/currency_exchange/list"
 			always-use-default-target="true" authentication-failure-url="/login?error=true"
