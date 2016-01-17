@@ -31,7 +31,7 @@ public class CurrencyRatesAPI {
 
 	static CloseableHttpClient httpClient = HttpClients.createDefault();
 
-	public CurrencyExchangeRateAPI sendRequest( String currencyOrigin) {
+	public static CurrencyExchangeRateAPI sendRequest( String currencyOrigin ) {
 
 		CurrencyExchangeRateAPI currencyExchangeRate = new CurrencyExchangeRateAPI();
 

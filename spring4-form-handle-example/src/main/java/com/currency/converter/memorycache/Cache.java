@@ -1,4 +1,4 @@
-package com.currency.converter.api;
+package com.currency.converter.memorycache;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,6 @@ public class Cache< K, V > {
 
 	private long timeToLive;
 	private LRUMap cache;
-	private CurrencyRatesAPI response = new CurrencyRatesAPI();
 
 	protected class CacheObject {
 		public long lastAccessed = System.currentTimeMillis();
@@ -60,16 +59,12 @@ public class Cache< K, V > {
 		synchronized (cache) {
 			CacheObject c = ( CacheObject ) cache.get( key );
 
-			if ( c == null ) {
-				CurrencyExchangeRateAPI currencyExchangeRate = response.sendRequest( ( String ) key );
-
-				put( ( K ) key, ( V ) currencyExchangeRate.getQuotes() );
-
-				c = ( CacheObject ) cache.get( key );
+			if ( c == null )
+				return null;
+			else {
+				c.lastAccessed = System.currentTimeMillis();
+				return c.value;
 			}
-			c.lastAccessed = System.currentTimeMillis();
-
-			return c.value;
 		}
 	}
 

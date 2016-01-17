@@ -53,7 +53,6 @@ public class UserController {
 	@RequestMapping( value = "/users", method = RequestMethod.POST )
 	public String saveOrUpdateUser( @ModelAttribute( "userForm" ) @Validated User user, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes ) {
-
 		logger.debug( "saveOrUpdateUser() : {}", user );
 
 		if ( result.hasErrors() ) {
@@ -77,7 +76,6 @@ public class UserController {
 	// show add user form
 	@RequestMapping( value = "/users/add", method = RequestMethod.GET )
 	public String showAddUserForm( Model model ) {
-
 		logger.debug( "showAddUserForm()" );
 
 		User user = new User();
@@ -93,7 +91,6 @@ public class UserController {
 	// show update form
 	@RequestMapping( value = "/users/{id}/update", method = RequestMethod.GET )
 	public String showUpdateUserForm( @PathVariable( "id" ) int id, Model model ) {
-
 		logger.debug( "showUpdateUserForm() : {}", id );
 
 		if ( !getIsUserLogged() ) {
@@ -141,7 +138,6 @@ public class UserController {
 
 	@ExceptionHandler( EmptyResultDataAccessException.class )
 	public ModelAndView handleEmptyData( HttpServletRequest req, Exception ex ) {
-
 		logger.debug( "handleEmptyData()" );
 		logger.error( "Request: {}, error ", req.getRequestURL(), ex );
 

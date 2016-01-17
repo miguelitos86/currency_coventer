@@ -25,7 +25,6 @@ public class LoginController {
 	@RequestMapping( value = "/login", method = RequestMethod.GET )
 	public String doLoginLogout( @RequestParam( value = "error", required = false ) boolean error,
 			@RequestParam( value = "logout", required = false ) boolean logout, ModelMap model ) {
-
 		logger.debug( "doLoginLogout()" );
 
 		if ( error == true ) {

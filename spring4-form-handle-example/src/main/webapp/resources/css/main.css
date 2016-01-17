@@ -52,6 +52,14 @@ input {
 	text-align: center;
 }
 
+.title {
+	list-style-type: none;
+	padding: 5px;
+	overflow: hidden;
+	background-color: #9a9696;
+	text-align: center;
+}
+
 h1 {
 	background-color: #9a9696;
 	-webkit-border-radius: 20px 20px 0 0;
@@ -193,6 +201,14 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 	color: #636060;
 }
 
+.linkWhite {
+	color: white;
+}
+
+.linkWhite:hover {
+	color: #636060;
+}
+
 ul {
 	list-style-type: none;
 	margin: 0;
@@ -200,6 +216,7 @@ ul {
 	overflow: hidden;
 	background-color: #9a9696;
 	font-size: small;
+	border-top: 1px solid #bbb;
 }
 
 li {

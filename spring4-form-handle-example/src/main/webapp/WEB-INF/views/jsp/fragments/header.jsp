@@ -15,24 +15,30 @@
 <spring:url value="/currency_exchange/new" var="urlNewQuery" />
 <spring:url value="/currency_exchange/list" var="urlList" />
 <spring:url value="/currency_exchange/current" var="urlCurrent" />
+<spring:url value="/login" var="urlLogin" />
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.id" var="userID" />
 	<spring:url value="/users/${userID}/update/" var="urlUserUpdate" />
 	<spring:url value="/users/${userID}" var="urlUserDetails" />
 </sec:authorize>
 <nav>
+	<div class="title">
+		<h2><spring:message code="Common.Application.Title" /></h2>
+	</div>
 	<ul>
-		<li class="floatLeft"><a href="${urlList}"><spring:message
-					code="Common.Application.Title" /></a></li>
-					
-		<sec:authorize access="isAuthenticated()">
-			<li class="floatLeft"><a href="${urlCurrent}"><spring:message
-						code="Common.CurrentExchangeRate" /></a></li>
-		</sec:authorize>
+	<sec:authorize access="isAnonymous()">
+		<li class="floatLeft"><a href="${urlLogin}"><spring:message
+					code="Login.SignIn" /></a></li>
+					</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
 			<li class="floatLeft"><a href="${urlList}"><spring:message
 						code="CurrencyExchange.Query.Historical" /></a></li>
+		</sec:authorize>
+
+		<sec:authorize access="isAuthenticated()">
+			<li class="floatLeft"><a href="${urlCurrent}"><spring:message
+						code="Common.CurrentExchangeRate" /></a></li>
 		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
@@ -55,8 +61,8 @@
 				href="<c:url value="/perform_logout" />"><spring:message
 						code="Login.Logout" /> <span class="entypo-logout"></span></a></li>
 		</sec:authorize>
-		
-				<sec:authorize access="isAuthenticated()">
+
+		<sec:authorize access="isAuthenticated()">
 			<li class="floatRight"><a href="${urlUserUpdate}"><spring:message
 						code="User.Update" /></a></li>
 		</sec:authorize>

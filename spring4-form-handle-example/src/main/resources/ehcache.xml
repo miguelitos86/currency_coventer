@@ -3,14 +3,32 @@
 	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
 	monitoring="autodetect" dynamicConfig="true">
 
-	<cache name="empcache" maxEntriesLocalHeap="5000"
+	<!-- User -->
+
+	<cache name="UserFindById" maxEntriesLocalHeap="5000"
 		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
 		timeToIdleSeconds="200" timeToLiveSeconds="500"
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>
 
-	<cache name="findAll" maxEntriesLocalHeap="5000"
+	<cache name="UserFindByEmail" maxEntriesLocalHeap="5000"
+		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="200" timeToLiveSeconds="500"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<!-- CurrencyExchangeQuery -->
+
+	<cache name="CurrencyExchangeQueryFindAll" maxEntriesLocalHeap="5000"
+		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="200" timeToLiveSeconds="500"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="CurrencyExchangeQueryFindById" maxEntriesLocalHeap="5000"
 		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
 		timeToIdleSeconds="200" timeToLiveSeconds="500"
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">

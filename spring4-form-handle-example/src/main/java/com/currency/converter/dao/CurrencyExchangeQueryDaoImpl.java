@@ -21,18 +21,11 @@ public class CurrencyExchangeQueryDaoImpl implements CurrencyExchangeQueryDao {
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public List< CurrencyExchangeQuery > findAll() {
-		return entityManager.createQuery( "SELECT eq FROM CurrencyExchangeQuery eq" )
-				.getResultList();
-	}
-
-	@SuppressWarnings( "unchecked" )
-	@Override
-	@Cacheable("findAll") 
+	@Cacheable( "CurrencyExchangeQueryFindAll" )
 	public List< CurrencyExchangeQuery > findAll( Integer userId ) {
-		 Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE UserId = :userId ORDER BY CreatedDate DESC LIMIT 10" )
-				.setParameter( "userId", userId );
-		 return query.getResultList();
+		Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE UserId = :userId ORDER BY CreatedDate DESC" )
+				.setParameter( "userId", userId ).setMaxResults( 10 );
+		return query.getResultList();
 	}
 
 	@Override
@@ -40,22 +33,24 @@ public class CurrencyExchangeQueryDaoImpl implements CurrencyExchangeQueryDao {
 	public void save( CurrencyExchangeQuery currencyExchangeQuery ) {
 		currencyExchangeQuery.setCreatedDate( new Date() );
 		entityManager.persist( currencyExchangeQuery );
-		CacheManager.getInstance().getEhcache("findAll").removeAll();
+		CacheManager.getInstance().getEhcache( "CurrencyExchangeQueryFindAll" ).removeAll();
+		CacheManager.getInstance().getEhcache( "CurrencyExchangeQueryFindById" ).removeAll();
 	}
 
 	@Override
 	@Transactional
 	public void delete( Integer id ) {
 		entityManager.remove( findById( id ) );
-		CacheManager.getInstance().getEhcache("findAll").removeAll();
+		CacheManager.getInstance().getEhcache( "CurrencyExchangeQueryFindAll" ).removeAll();
+		CacheManager.getInstance().getEhcache( "CurrencyExchangeQueryFindById" ).removeAll();
 
 	}
-	
+
 	@SuppressWarnings( "unchecked" )
 	@Override
+	@Cacheable( "CurrencyExchangeQueryFindById" )
 	public CurrencyExchangeQuery findById( Integer id ) {
-		Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE ID = :id" )
-				.setParameter( "id", id );
+		Query query = entityManager.createQuery( "FROM CurrencyExchangeQuery WHERE ID = :id" ).setParameter( "id", id );
 		List< CurrencyExchangeQuery > list = query.getResultList();
 
 		if ( !list.isEmpty() ) {

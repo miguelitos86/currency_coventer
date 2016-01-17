@@ -19,11 +19,6 @@ public class CurrencyExchangeQueryServiceImpl implements CurrencyExchangeQuerySe
 	}
 
 	@Override
-	public List< CurrencyExchangeQuery > findAll() {
-		return exchangeQueryDao.findAll();
-	}
-
-	@Override
 	public List< CurrencyExchangeQuery > findAll( Integer userId ) {
 		return exchangeQueryDao.findAll( userId );
 	}
@@ -37,11 +32,6 @@ public class CurrencyExchangeQueryServiceImpl implements CurrencyExchangeQuerySe
 	public void delete( Integer id ) {
 		exchangeQueryDao.delete( id );
 
-	}
-
-	@Override
-	public CurrencyExchangeQuery findById( Integer id ) {
-		return exchangeQueryDao.findById( id );
 	}
 
 }

@@ -6,8 +6,6 @@ import com.currency.converter.model.CurrencyExchangeQuery;
 
 public interface CurrencyExchangeQueryDao {
 
-	List< CurrencyExchangeQuery > findAll();
-
 	List< CurrencyExchangeQuery > findAll( Integer userId );
 
 	void save( CurrencyExchangeQuery currencyExchangeQuery );

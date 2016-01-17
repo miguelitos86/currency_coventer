@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.currency.converter.api.Cache;
+import com.currency.converter.api.CurrencyExchangeRateAPI;
+import com.currency.converter.api.CurrencyRatesAPI;
+import com.currency.converter.memorycache.Cache;
 import com.currency.converter.model.CurrencyExchangeQuery;
 import com.currency.converter.model.CurrencyExchangeQueryForm;
 import com.currency.converter.model.CurrencyExchangeRate;
@@ -64,7 +66,7 @@ public class CurrencyExchangeController {
 	// list page queries
 	@RequestMapping( value = "/currency_exchange/list", method = RequestMethod.GET )
 	public String showList( Model model ) {
-		logger.debug( "showLastQueries()" );
+		logger.debug( "showList()" );
 		CustomUserDetails customUserDetails = ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		model.addAttribute( "list", exchangeQueryService.findAll( customUserDetails.getId() ) );
@@ -75,7 +77,6 @@ public class CurrencyExchangeController {
 	// delete query
 	@RequestMapping( value = "/currency_exchange/{id}/delete", method = RequestMethod.POST )
 	public String deleteQuery( @PathVariable( "id" ) int id, final RedirectAttributes redirectAttributes ) {
-
 		logger.debug( "deleteQuery() : {}", id );
 
 		exchangeQueryService.delete( id );
@@ -91,8 +92,17 @@ public class CurrencyExchangeController {
 	public String showNew( Model model ) {
 		logger.debug( "showNew()" );
 
-		Double rate = cache.get( this.exchangeQueryForm.getOriginCurrency() ).get(
-				this.exchangeQueryForm.getOriginCurrency().concat( this.exchangeQueryForm.getDestinationCurrency() ) );
+		Double rate = new Double( 1 );
+
+		HashMap< String, Double > cacheContentHashMap = cache.get( this.exchangeQueryForm.getOriginCurrency() );
+
+		if ( cacheContentHashMap == null ) {
+			CurrencyExchangeRateAPI currencyExchangeRateAPI = CurrencyRatesAPI.sendRequest( this.exchangeQueryForm.getOriginCurrency() );
+			cacheContentHashMap = currencyExchangeRateAPI.getQuotes();
+			cache.put( this.exchangeQueryForm.getOriginCurrency(), currencyExchangeRateAPI.getQuotes() );
+		}
+
+		rate = cacheContentHashMap.get( this.exchangeQueryForm.getOriginCurrency().concat( this.exchangeQueryForm.getDestinationCurrency() ) );
 
 		CurrencyExchangeQuery currencyExchangeQuery = new CurrencyExchangeQuery();
 
@@ -113,13 +123,14 @@ public class CurrencyExchangeController {
 	@RequestMapping( value = "/currency_exchange/new", method = RequestMethod.POST )
 	public String showNew( @ModelAttribute( "currencyExchangeQueryForm" ) CurrencyExchangeQuery currencyExchangeQuery,
 			@RequestParam( required = false, value = "add" ) String add, Model model, final RedirectAttributes redirectAttributes ) {
-		logger.debug( "showAddQueryForm()" );
+		logger.debug( "showNew()" );
 
 		this.exchangeQueryForm.setOriginCurrency( currencyExchangeQuery.getOriginCurrency() );
 		this.exchangeQueryForm.setDestinationCurrency( currencyExchangeQuery.getDestinationCurrency() );
 		this.exchangeQueryForm.setQuantityOrigin( currencyExchangeQuery.getQuantityOrigin() );
 		this.exchangeQueryForm.setExchangeRate( currencyExchangeQuery.getExchangeRate() );
-		currencyExchangeQuery.setUser( userService.findById( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getId() ) );
+		currencyExchangeQuery.setUser( userService.findById( ( ( CustomUserDetails ) SecurityContextHolder.getContext().getAuthentication().getPrincipal() )
+				.getId() ) );
 
 		if ( add != null ) {
 			redirectAttributes.addFlashAttribute( "css", "success" );
@@ -138,10 +149,21 @@ public class CurrencyExchangeController {
 
 		List< CurrencyExchangeRate > exchangeRateList = new ArrayList< CurrencyExchangeRate >();
 
-		HashMap< String, Double > cacheContentHashMap = cache.get( "USD" );
+		// at the moment origin can be just USD because of free version of the
+		// API
+		String originCurrency = "USD";
+
+		HashMap< String, Double > cacheContentHashMap = cache.get( originCurrency );
+
+		if ( cacheContentHashMap == null ) {
+			CurrencyExchangeRateAPI currencyExchangeRateAPI = CurrencyRatesAPI.sendRequest( originCurrency );
+			cacheContentHashMap = currencyExchangeRateAPI.getQuotes();
+			cache.put( originCurrency, currencyExchangeRateAPI.getQuotes() );
+		}
+
 		for ( Map.Entry< String, Double > entry : cacheContentHashMap.entrySet() ) {
-			if ( !entry.getKey().substring( 3 ).equals( "USD" ) ) {
-				CurrencyExchangeRate exchangeRate = new CurrencyExchangeRate( "USD", entry.getKey().substring( 3 ), entry.getValue() );
+			if ( !entry.getKey().substring( 3 ).equals( originCurrency ) ) {
+				CurrencyExchangeRate exchangeRate = new CurrencyExchangeRate( originCurrency, entry.getKey().substring( 3 ), entry.getValue() );
 				exchangeRateList.add( exchangeRate );
 			}
 		}
@@ -154,6 +176,8 @@ public class CurrencyExchangeController {
 	}
 
 	private void populateDefaultModel( Model model ) {
+		// at the moment origin can be just USD because of free version of the
+		// API
 		Map< String, String > originCurrencyList = new LinkedHashMap< String, String >();
 		originCurrencyList.put( "USD", "USD" );
 		// originCurrencyList.put( "EUR", "EUR" );
@@ -171,4 +195,5 @@ public class CurrencyExchangeController {
 		destinationCurrenyList.put( "HUF", "HUF" );
 		model.addAttribute( "destinationCurrenyList", destinationCurrenyList );
 	}
+
 }
