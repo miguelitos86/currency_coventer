@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 2/1/2016
  */
 public class CustomUserDetails extends org.springframework.security.core.userdetails.User {
 

@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.currency.converter.model.CurrencyExchangeQuery;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 public class CurrencyExchangeQueryDaoImpl implements CurrencyExchangeQueryDao {
 
 	@PersistenceContext

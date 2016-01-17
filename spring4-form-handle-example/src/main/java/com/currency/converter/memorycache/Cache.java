@@ -8,7 +8,6 @@ import org.apache.commons.collections.map.LRUMap;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 9/1/2016
  */
 
 public class Cache< K, V > {

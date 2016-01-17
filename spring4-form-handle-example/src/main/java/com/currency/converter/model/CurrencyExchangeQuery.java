@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 2/1/2016
  */
 
 @Entity
@@ -48,8 +47,8 @@ public class CurrencyExchangeQuery implements Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
+	@ManyToOne( fetch = FetchType.LAZY )
+	@JoinColumn( name = "UserID", nullable = false )
 	public User getUser() {
 		return user;
 	}

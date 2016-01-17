@@ -29,6 +29,11 @@ import com.currency.converter.security.CustomUserDetails;
 import com.currency.converter.service.CurrencyExchangeQueryService;
 import com.currency.converter.service.UserService;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Controller
 public class CurrencyExchangeController {
 

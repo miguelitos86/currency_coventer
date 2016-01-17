@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 5/1/2016
  */
 
 @Controller

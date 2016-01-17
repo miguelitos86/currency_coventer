@@ -10,6 +10,11 @@ import org.springframework.validation.Validator;
 import com.currency.converter.model.User;
 import com.currency.converter.service.UserService;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Component
 public class UserFormValidator implements Validator {
 

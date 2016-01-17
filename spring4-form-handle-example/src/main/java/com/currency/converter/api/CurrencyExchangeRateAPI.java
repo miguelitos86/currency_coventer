@@ -8,7 +8,6 @@ import java.util.HashMap;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 9/1/2016
  */
 
 public class CurrencyExchangeRateAPI {

@@ -12,11 +12,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @EnableWebMvc
 @Configuration
-@ComponentScan( { "com.currency.converter.web", "com.currency.converter.service", "com.currency.converter.dao",
-		"com.currency.converter.exception", "com.currency.converter.validator", "com.currency.converter.security",
-		"com.currency.converter.common", "com.currency.converter.restful", "com.currency.converter.model" } )
+@ComponentScan( { "com.currency.converter.web", "com.currency.converter.service", "com.currency.converter.dao", "com.currency.converter.exception",
+		"com.currency.converter.validator", "com.currency.converter.security", "com.currency.converter.common", "com.currency.converter.restful",
+		"com.currency.converter.model" } )
 public class SpringLocaleConfig extends WebMvcConfigurerAdapter {
 
 	@Bean

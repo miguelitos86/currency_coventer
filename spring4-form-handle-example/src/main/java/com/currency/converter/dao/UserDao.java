@@ -2,6 +2,11 @@ package com.currency.converter.dao;
 
 import com.currency.converter.model.User;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 public interface UserDao {
 
 	User findById( Integer id );

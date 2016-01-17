@@ -13,6 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.currency.converter.model.User;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 public class UserDaoImpl implements UserDao {
 
 	@PersistenceContext

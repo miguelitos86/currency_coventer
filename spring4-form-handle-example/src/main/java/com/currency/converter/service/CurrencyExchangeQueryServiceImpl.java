@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import com.currency.converter.dao.CurrencyExchangeQueryDao;
 import com.currency.converter.model.CurrencyExchangeQuery;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Service( "exchangeQueryService" )
 public class CurrencyExchangeQueryServiceImpl implements CurrencyExchangeQueryService {
 

@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 2/1/2016
  */
 
 public class CurrencyRatesAPI {

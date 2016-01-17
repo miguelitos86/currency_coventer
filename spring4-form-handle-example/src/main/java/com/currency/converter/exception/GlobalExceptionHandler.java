@@ -11,21 +11,23 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public static final String DEFAULT_ERROR_VIEW = "error";
 
-	private final Logger logger = LoggerFactory
-			.getLogger( GlobalExceptionHandler.class );
+	private final Logger logger = LoggerFactory.getLogger( GlobalExceptionHandler.class );
 
 	@ExceptionHandler( value = Exception.class )
-	public ModelAndView defaultErrorHandler( HttpServletRequest req, Exception e )
-			throws Exception {
+	public ModelAndView defaultErrorHandler( HttpServletRequest req, Exception e ) throws Exception {
 
 		logger.error( "[URL] : {}", req.getRequestURL(), e );
 
-		if ( AnnotationUtils
-				.findAnnotation( e.getClass(), ResponseStatus.class ) != null )
+		if ( AnnotationUtils.findAnnotation( e.getClass(), ResponseStatus.class ) != null )
 			throw e;
 
 		ModelAndView mav = new ModelAndView();

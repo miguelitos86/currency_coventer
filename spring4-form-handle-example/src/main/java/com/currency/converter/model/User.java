@@ -20,6 +20,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Entity
 @Table( name = "User", uniqueConstraints = @UniqueConstraint( columnNames = "EMail" ) )
 public class User implements Serializable {
@@ -39,10 +44,9 @@ public class User implements Serializable {
 	public Integer zipCode;
 	public String city;
 	public String country;
-	
+
 	@JsonIgnore
-	private Set<CurrencyExchangeQuery> currencyExchangeQuery = new HashSet<CurrencyExchangeQuery>(
-			0);
+	private Set< CurrencyExchangeQuery > currencyExchangeQuery = new HashSet< CurrencyExchangeQuery >( 0 );
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -136,13 +140,13 @@ public class User implements Serializable {
 	public void setCountry( String country ) {
 		this.country = country;
 	}
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<CurrencyExchangeQuery> getCurrencyExchangeQuery() {
+
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "user" )
+	public Set< CurrencyExchangeQuery > getCurrencyExchangeQuery() {
 		return this.currencyExchangeQuery;
 	}
 
-	public void setCurrencyExchangeQuery(Set<CurrencyExchangeQuery> currencyExchangeQuery) {
+	public void setCurrencyExchangeQuery( Set< CurrencyExchangeQuery > currencyExchangeQuery ) {
 		this.currencyExchangeQuery = currencyExchangeQuery;
 	}
 }

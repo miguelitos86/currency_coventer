@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 2/1/2016
  */
 
 @Component( "exchangeQueryForm" )
-@Scope(value = "session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope( value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS )
 public class CurrencyExchangeQueryForm {
 
 	String originCurrency;

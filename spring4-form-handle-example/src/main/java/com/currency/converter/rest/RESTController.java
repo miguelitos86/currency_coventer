@@ -27,7 +27,6 @@ import com.currency.converter.service.UserService;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 7/1/2016
  */
 
 @RestController
@@ -80,19 +79,18 @@ public class RESTController {
 			logger.debug( "User with id " + id + " not found" );
 			return new ResponseEntity< User >( HttpStatus.NOT_FOUND );
 		}
-		
+
 		currentUser.setName( user.getName() );
-		currentUser.setEmail(  user.getEmail() );
+		currentUser.setEmail( user.getEmail() );
 		currentUser.setDateOfBirth( user.getDateOfBirth() );
 		currentUser.setStreet( user.getStreet() );
 		currentUser.setZipCode( user.getZipCode() );
 		currentUser.setCity( user.getCity() );
 		currentUser.setCountry( user.getCountry() );
 
-		if( userService.findByEmail( user.getEmail() ) != null ) {
+		if ( userService.findByEmail( user.getEmail() ) != null ) {
 			return new ResponseEntity< User >( HttpStatus.CONFLICT );
-		}
-		else {
+		} else {
 			userService.saveOrUpdate( currentUser );
 			return new ResponseEntity< User >( currentUser, HttpStatus.OK );
 		}

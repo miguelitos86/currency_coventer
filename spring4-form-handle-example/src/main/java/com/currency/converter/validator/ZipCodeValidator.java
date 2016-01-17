@@ -5,6 +5,11 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Component( "zipCodeValidator" )
 public class ZipCodeValidator {
 

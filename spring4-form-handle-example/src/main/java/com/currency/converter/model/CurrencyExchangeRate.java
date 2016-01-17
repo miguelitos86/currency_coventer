@@ -3,11 +3,9 @@
  */
 package com.currency.converter.model;
 
-
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 10/1/2016
  */
 public class CurrencyExchangeRate {
 

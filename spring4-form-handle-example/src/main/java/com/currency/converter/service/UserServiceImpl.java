@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import com.currency.converter.dao.UserDao;
 import com.currency.converter.model.User;
 
+/**
+ * @author Miguel del Prado Aranda
+ * @email m.delpradoaranda@gmail.com
+ */
+
 @Service( "userService" )
 public class UserServiceImpl implements UserService {
 

@@ -24,7 +24,6 @@ import com.currency.converter.dao.UserDao;
 /**
  * @author Miguel del Prado Aranda
  * @email m.delpradoaranda@gmail.com
- * @date 31/12/2015
  */
 
 @Service
